@@ -82,45 +82,45 @@ app.get('/admin/update:id', function(req, res) {
 
 app.post('/admin/movie/new', function(req, res) {
   console.log('wwwwwwwww');
-  return;
-  var id = req.body.movie._id;
-  var movieObj = req.body.movie;
-  var _movie;
-
-  if(id != 'undefined') {
-    Movie.findById(id, function(err, movie) {
-      if(err) {
-        console.log(err);
-      }
-
-      _movie = _.extend(movie, movieObj);
-      _movie.save(function(err, movie) {
-        if(err) {
-          console.log(err);
-        }
-        res.redirect('/movie/' + movie._id);
-      });
-    });
-  } else {
-    _movie = new Movie({
-      doctor: movieObj.doctor,
-      title: movieObj.title,
-      country: movieObj.country,
-      language: movieObj.language,
-      year: movieObj.year,
-      poster: movieObj.poster,
-      summary: movieObj.summary,
-      flash: movieObj.flash
-    });
-
-    _movie.save(function(err, movie) {
-      if(err) {
-        console.log(err);
-      }
-
-      res.redirect('/movie/' + movie._id);
-    });
-  }
+  // return;
+  // var id = req.body.movie._id;
+  // var movieObj = req.body.movie;
+  // var _movie;
+  //
+  // if(id != 'undefined') {
+  //   Movie.findById(id, function(err, movie) {
+  //     if(err) {
+  //       console.log(err);
+  //     }
+  //
+  //     _movie = _.extend(movie, movieObj);
+  //     _movie.save(function(err, movie) {
+  //       if(err) {
+  //         console.log(err);
+  //       }
+  //       res.redirect('/movie/' + movie._id);
+  //     });
+  //   });
+  // } else {
+  //   _movie = new Movie({
+  //     doctor: movieObj.doctor,
+  //     title: movieObj.title,
+  //     country: movieObj.country,
+  //     language: movieObj.language,
+  //     year: movieObj.year,
+  //     poster: movieObj.poster,
+  //     summary: movieObj.summary,
+  //     flash: movieObj.flash
+  //   });
+  //
+  //   _movie.save(function(err, movie) {
+  //     if(err) {
+  //       console.log(err);
+  //     }
+  //
+  //     res.redirect('/movie/' + movie._id);
+  //   });
+  // }
 });
 
 app.get('/admin/list', function(req, res) {
@@ -134,4 +134,19 @@ app.get('/admin/list', function(req, res) {
       movies: movies
     });
   });
+});
+
+// list delete movie
+app.delete('/admin/list',function(req,res){
+  var id = req.query.id;
+  if(id){
+    Movie.remove({_id:id},function(err,movie){
+      if(err){
+        console.error(err);
+      }else{
+        console.log('删除成功');
+        res.json({success:1});
+      }
+    });
+  }
 });
