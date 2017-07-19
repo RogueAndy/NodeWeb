@@ -54,22 +54,21 @@ app.get('/admin/movie', function(req, res) {
   res.render('admin', {
     title: 'imooc 后台录入页',
     movie: {
-      doctor: '',
-      country: '',
-      title: '',
-      year: '',
-      poster: '',
-      language: '',
-      flash: '',
-      summary: ''
+      doctor: '大钟',
+      country: '中国',
+      title: '变形金刚1',
+      year: '1999',
+      poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+      language: '汉语',
+      flash: 'http://player.youku.com/player.php/sid/XNjA1Njc0NTUy/v.swf',
+      summary: '就感到未来很无力'
     }
   });
 });
 
 // admin update movie
-app.get('/admin/update:id', function(req, res) {
+app.get('/admin/update/:id', function(req, res) {
   var id = req.params.id;
-
   if(id) {
     Movie.findById(id, function(err, movie) {
       res.render('admin', {
@@ -82,12 +81,10 @@ app.get('/admin/update:id', function(req, res) {
 
 app.post('/admin/movie/new', function(req, res) {
 
-  var id = req.body.movie._id;
-  var movieObj = req.body.movie;
+  var movieObj = req.body;
   var _movie;
-
-  if(id != 'undefined') {
-    Movie.findById(id, function(err, movie) {
+  if(movieObj._id != 'undefined') {
+    Movie.findById(movieObj._id, function(err, movie) {
       if(err) {
         console.log(err);
       }
