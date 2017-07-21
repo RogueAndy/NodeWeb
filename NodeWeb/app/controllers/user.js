@@ -69,7 +69,7 @@ exports.signin = function(req, res) {
 
       if(isMatch) {
         req.session.user = res_user;
-        return res.redirect('/admin/list');
+        return res.redirect('/admin/userlist');
       } else {
         return res.redirect('/signin');
       }
@@ -90,16 +90,58 @@ exports.logout = function (req, res) {
 // userlist page
 
 exports.list = function(req, res) {
+  
   User.fetch(function(err, users) {
     if(err) {
       console.log(err);
     }
-
+    
     res.render('userlist', {
       title: 'imooc 用户列表页',
       users: users
     });
   });
+  
+  // var user = req.session.user;
+  //
+  // if(!user) {
+  //   return res.redirect('/signin');
+  // }
+  //
+  // if(user.role > 10) {
+  //
+  //   User.fetch(function(err, users) {
+  //     if(err) {
+  //       console.log(err);
+  //     }
+  //
+  //     res.render('userlist', {
+  //       title: 'imooc 用户列表页',
+  //       users: users
+  //     });
+  //   });
+  //
+  // }
+};
+
+// signinRequired
+exports.signinRequired = function (req, res, next) {
+  var user = req.session.user;
+  if(!user) {
+    return res.redirect('/signin');
+  }
+  
+  next();
+};
+
+// adminRequired
+exports.adminRequired = function (req, res, next) {
+  var user = req.session.user;
+  if(user.role <= 10) {
+    return res.redirect('/');
+  }
+  
+  next();
 };
 
 // userlist delete user

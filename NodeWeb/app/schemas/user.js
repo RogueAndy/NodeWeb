@@ -18,8 +18,14 @@ var UserSchema = new mongoose.Schema({
     type: String,
     default: '男'
   },
+  
+  // 0: nolmal user
+  // 1: verified user
+  // 2: professonal user
+  // >10: admin
+  // >50: super admin
   role: {
-    type: String,
+    type: Number,
     default: 0
   },
   image: String,

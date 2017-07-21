@@ -27,7 +27,7 @@ module.exports = function(app) {
   app.get('/signin', User.showSignin);
   app.get('/signup', User.showSignup);
   app.get('/logout', User.logout);
-  app.get('/admin/userlist', User.list);
+  app.get('/admin/userlist', User.signinRequired, User.adminRequired, User.list);
   app.delete('/admin/userlist', User.del);
 
   /* Movie */
