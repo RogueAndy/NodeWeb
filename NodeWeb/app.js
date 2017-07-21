@@ -1,20 +1,34 @@
 var express = require('express');
 var path = require('path');
 var _ = require('underscore');
-var Movie= require('./models/movie');
+var Movie = require('./models/movie');
+var User = require('./models/user');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var sessionParser = require('express-session');
 var port = process.env.PORT || 3000;
 var app = express();
 
 var mongoose = require('mongoose');
+var mongooseStore = require('connect-mongo')(sessionParser);
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/imooc', {useMongoClient:true});
+
+var dbUrl = 'mongodb://localhost/imooc';
+mongoose.connect(dbUrl, {useMongoClient:true});
 
 app.set('views', './views/pages');
 app.set('view engine', 'jade');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+app.use(sessionParser({
+  secret: 'imooc',
+  store: new mongooseStore({
+    url: dbUrl,
+    collection: 'sessions'
+  })
+}));
 app.locals.moment = require('moment');
 app.listen(port);
 
@@ -22,7 +36,6 @@ console.log('imooc start on port ' + port);
 
 // index page
 app.get('/', function(req, res) {
-
   Movie.fetch(function(err, movies) {
     if(err) {
       console.log(err);
@@ -34,6 +47,97 @@ app.get('/', function(req, res) {
       title: 'imooc 首页',
       movies: []
   });
+});
+
+// signup
+app.post('/user/signup', function(req, res) {
+
+  var _user = req.body;
+
+  User.find({name: _user.name}, function (err, resUser) {
+    if(err) {
+      console.log(err);
+    }
+
+    if(resUser.length > 0) {
+      return res.redirect('/');
+    }
+
+    var user = new User(_user);
+    user.save(function(err, save_user) {
+      if(err) {
+        console.log(err);
+      }
+
+      res.redirect('/admin/userlist');
+    });
+  });
+
+});
+
+// signin
+
+app.post('/user/signin', function(req, res) {
+
+  var _user = req.body;
+  var name = _user.name;
+  var password = _user.password;
+
+  User.findOne({name: name}, function (err, res_user) {
+    if(err) {
+      console.log(err);
+    }
+
+    if(!res_user) {
+      return res.redirect('/');
+    }
+
+    res_user.comparePassword(password, function (err, isMatch) {
+      if(err) {
+        console.log(err);
+      }
+
+      if(isMatch) {
+        req.session.user = res_user;
+        return res.redirect('/admin/list');
+      } else {
+        console.log('Password is not matched');
+        return res.redirect('/');
+      }
+    });
+  });
+
+});
+
+// userlist page
+
+app.get('/admin/userlist', function(req, res) {
+  User.fetch(function(err, users) {
+    if(err) {
+      console.log(err);
+    }
+
+    res.render('userlist', {
+      title: 'imooc 用户列表页',
+      users: users
+    });
+  });
+});
+
+// userlist delete user
+
+app.delete('admin/userlist', function (req, res) {
+  var id = req.query.id;
+  if(id) {
+    User.remove({_id: id}, function (err, user) {
+      if(err) {
+        console.log(err);
+        return;
+      }
+      console.log('删除成功');
+      res.json({success: 1});
+    });
+  }
 });
 
 // detail page
@@ -121,6 +225,11 @@ app.post('/admin/movie/new', function(req, res) {
 });
 
 app.get('/admin/list', function(req, res) {
+
+  console.log('user in session: ');
+  console.log(req.session.user);
+  console.log('--------- over');
+
   Movie.fetch(function(err, movies) {
     if(err) {
       console.log(err);

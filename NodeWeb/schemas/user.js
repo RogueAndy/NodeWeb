@@ -10,7 +10,22 @@ var UserSchema = new mongoose.Schema({
     unique: true,
     type: String
   },
-  password: String,
+  password: {
+    type: String,
+    default: '123456'
+  },
+  sex: {
+    type: String,
+    default: '男'
+  },
+  role: {
+    type: String,
+    default: 0
+  },
+  image: String,
+  email: String,
+  tel: Number,
+
   meta: {
     createAt: {
       type: Date,
@@ -47,9 +62,19 @@ UserSchema.pre('save', function(next) {
       next();
     });
   });
-
-  next();
 });
+
+UserSchema.methods = {
+  comparePassword: function(_password, cb) {
+    bcrypt.compare(_password, this.password, function (err, isMatch) {
+      if(err) {
+        return cb(err);
+      }
+
+      cb(null, isMatch);
+    });
+  }
+};
 
 UserSchema.statics = {
   fetch: function(cb) {
