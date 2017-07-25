@@ -24,7 +24,7 @@ block content
         .row
           .col-md-1
             a.comment_link(href='javascript:;', data-cid='#{item._id}', data-tid='#{item.from._id}')
-              img(src='/uploads/#{item.from.img}', style='width:64px;height=64px;border-radius:50%')
+              img(src='/methodjs/resources/userdefault.png', style='width:64px;height=64px;border-radius:50%')
           .col-md-11
             h5(style='color:#337ab7') #{item.from.name}
               span.pull-right(style='color:#999') #{moment(item.meta.createAt, 'YYYYDDMM').fromNow()}

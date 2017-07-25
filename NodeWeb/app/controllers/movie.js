@@ -4,34 +4,35 @@
 
 var _ = require('underscore');
 var Movie = require('../models/movie');
-var Comment = require('../models/movie');
+var Comment = require('../models/comment');
 
 // detail page
 exports.detail = function(req, res) {
   var id = req.params.id;
   
-  Movie.findById(id, function (err, movie) {
-    Comment.findByMovieId(id, function (err1, comments) {
-      res.render('detail', {
-        title:'imooc ' + movie.title,
-        movie: movie,
-        comments: comments
-      });
-    });
-  });
-  
-  // Movie.findById(id, function(err, movie) {
-  //   Comment
-  //     .find({movie: id})
-  //     // .populate('users', 'name')
-  //     .exec(function (err, comments) {
-  //       res.render('detail', {
-  //         title: 'imooc ' + movie.title,
-  //         movie: movie,
-  //         comments: comments
-  //       });
+  // Movie.findById(id, function (err, movie) {
+  //   Comment.findByMovieId(id, function (err1, comments) {
+  //     res.render('detail', {
+  //       title:'imooc ' + movie.title,
+  //       movie: movie,
+  //       comments: comments
+  //     });
   //   });
   // });
+  
+  /* 关于 populate 的用法，from 代表着本来在 Comment 里存在的 key,而name代表查询 用户的名字，再把用户名字存入到 from 字段李 */
+  Movie.findById(id, function(err, movie) {
+    Comment
+      .find({movie: id})
+      .populate('from', 'name')
+      .exec(function (err, comments) {
+        res.render('detail', {
+          title: 'imooc ' + movie.title,
+          movie: movie,
+          comments: comments
+        });
+    });
+  });
 };
 
 // admin page

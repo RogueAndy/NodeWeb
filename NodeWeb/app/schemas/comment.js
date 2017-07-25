@@ -41,7 +41,7 @@ CommentSchema.statics = {
     return this.findOne({_id: id}).exec(cb);
   },
   findByMovieId: function(movieId, cb) {
-    return this.find({movie: id}).exec(cb);
+    return this.find({movie: movieId}).exec(cb);
   }
 };
 
