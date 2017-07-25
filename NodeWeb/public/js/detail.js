@@ -19,5 +19,7 @@ $(function() {
       name: 'cid',
       value: commentId
     }).appendTo('#commentForm');
+    
+    $('#replyText').attr('placeholder', '对 ' + toId + ' 回复:');
   });
 });

@@ -50,8 +50,8 @@ block content
           input(type="hidden", name="movieid", value="#{movie._id}")
           input(type="hidden", name="fromid", value="#{user._id}")
           .form-group
-            textarea.form-control(name="content", row="3")
-          button.btn.btn-primary(type="submit") 提交
+            textarea#replyText.form-control(name="content", row="3")
+          button.btn.btn-primary(type="submit") 回复
 
 
     //.row(style="height:200px;")
