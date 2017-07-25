@@ -4,16 +4,34 @@
 
 var _ = require('underscore');
 var Movie = require('../models/movie');
+var Comment = require('../models/movie');
 
 // detail page
 exports.detail = function(req, res) {
   var id = req.params.id;
-  Movie.findById(id, function(err, movie) {
-    res.render('detail', {
-      title: 'imooc ' + movie.title,
-      movie: movie
+  
+  Movie.findById(id, function (err, movie) {
+    Comment.findByMovieId(id, function (err1, comments) {
+      res.render('detail', {
+        title:'imooc ' + movie.title,
+        movie: movie,
+        comments: comments
+      });
     });
   });
+  
+  // Movie.findById(id, function(err, movie) {
+  //   Comment
+  //     .find({movie: id})
+  //     // .populate('users', 'name')
+  //     .exec(function (err, comments) {
+  //       res.render('detail', {
+  //         title: 'imooc ' + movie.title,
+  //         movie: movie,
+  //         comments: comments
+  //       });
+  //   });
+  // });
 };
 
 // admin page

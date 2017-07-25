@@ -18,3 +18,47 @@ block content
           dd= movie.year
           dt 简介
           dd= movie.summary
+    h3(style="padding-bottom:12px;border-bottom:1px solid #d9d9d9;") 评论
+    .comment-list
+      each item in comments
+        .row
+          .col-md-1
+            a.comment_link(href='javascript:;', data-cid='#{item._id}', data-tid='#{item.from._id}')
+              img(src='/uploads/#{item.from.img}', style='width:64px;height=64px;border-radius:50%')
+          .col-md-11
+            h5(style='color:#337ab7') #{item.from.name}
+              span.pull-right(style='color:#999') #{moment(item.meta.createAt, 'YYYYDDMM').fromNow()}
+            p #{item.content}
+            .comment-reply
+              if item.reply && item.reply.length>0
+                each reply in item.reply
+                  .row
+                    .col-md-1
+                      img(src='/uploads/#{reply.from.img}', style='width:64px;height:64px;border-radius:50%')
+                    .col-md-11
+                      h5(style='color:#337ab7')
+                        span #{reply.from.name}
+                        span(style='color:#666') 回复
+                        span #{reply.to.name}
+                      p #{reply.content}
+                  hr
+        hr
+
+    .row(style="height:200px;")
+      form(id='form-comment', method='POST', action='/admin/user/comment')
+        .col-md-1
+          img(src='/methodjs/resources/userdefault.png', style='width:64px;height:64px;border-radius:50%')
+        .col-md-11
+          textarea.form-control(cols='3', name='content', style='height:70px;', placeholder='说点什么吧')
+        if user
+          .form-group.pull-right(style='margin:15px')
+            input(type="hidden", name="movieid", value="#{movie._id}")
+            input(type="hidden", name="fromid", value="#{user._id}")
+            button#comment-btn.btn.btn-primary(type="submit") 发表评论
+        else
+          .form-group.pull-right(style="margin:15px;")
+            a(href="/",data-toggle="modal",data-target="#signin-modal") 登录后评论
+
+  script(src="//cdn.bootcss.com/moment.js/2.18.1/moment.min.js")
+  script(src="//cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js")
+  //script(src="/methodjs/js/comment.js")
