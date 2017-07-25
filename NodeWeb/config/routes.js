@@ -41,5 +41,6 @@ module.exports = function(app) {
   
   /* Comment */
   app.post('/admin/user/comment', User.signinRequired, Comment.save);
+  app.post('/comment/reply', User.signinRequired, Comment.replyToUser);
 };
 
