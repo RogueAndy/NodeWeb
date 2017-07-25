@@ -34,7 +34,8 @@ block content
                 each reply in item.reply
                   .row
                     .col-md-1
-                      img(src='/methodjs/resources/userdefault.png', style='width:64px;height:64px;border-radius:50%')
+                      a.comment-user(href='#comments', data-cid='#{item._id}', data-tid='#{reply.from._id}')
+                        img(src='/methodjs/resources/userdefault.png', style='width:64px;height:64px;border-radius:50%')
                     .col-md-11
                       h5(style='color:#337ab7')
                         span #{reply.from.name}
