@@ -49,7 +49,7 @@ block content
       .row(style="height:200px;")
         form#commentForm(method="POST", action="/comment/reply")
           input(type="hidden", name="movieid", value="#{movie._id}")
-          input(type="hidden", name="fromid", value="#{user._id}")
+          input(type="hidden", name="fromid", value="#{user ? user._id : ''}")
           .form-group
             textarea#replyText.form-control(name="content", row="3")
           button.btn.btn-primary(type="submit") 回复
