@@ -7,6 +7,7 @@ var Index = require('../app/controllers/index');
 var User = require('../app/controllers/user');
 var Movie = require('../app/controllers/movie');
 var Comment = require('../app/controllers/comment');
+var Category = require('../app/controllers/category');
 
 module.exports = function(app) {
 
@@ -42,5 +43,10 @@ module.exports = function(app) {
   /* Comment */
   app.post('/admin/user/comment', User.signinRequired, Comment.save);
   app.post('/comment/reply', User.signinRequired, Comment.replyToUser);
+  
+  /* Category */
+  app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new);
+  app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list);
+  app.post('/admin/category', User.signinRequired, User.adminRequired, Category.save);
 };
 

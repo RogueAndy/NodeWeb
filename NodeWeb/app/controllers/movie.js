@@ -5,6 +5,7 @@
 var _ = require('underscore');
 var Movie = require('../models/movie');
 var Comment = require('../models/comment');
+var Category = require('../models/category');
 
 // detail page
 exports.detail = function(req, res) {
@@ -39,19 +40,25 @@ exports.detail = function(req, res) {
 
 // admin page
 exports.new = function(req, res) {
-  res.render('admin', {
-    title: 'imooc 后台录入页',
-    movie: {
-      doctor: '大钟',
-      country: '中国',
-      title: '变形金刚1',
-      year: '1999',
-      poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
-      language: '汉语',
-      flash: 'http://player.youku.com/player.php/sid/XNjA1Njc0NTUy/v.swf',
-      summary: '就感到未来很无力'
-    }
-  });
+  
+  Category.find({}, function (err, categories) {
+	
+		res.render('admin', {
+			title: 'imooc 后台录入页',
+			categories: categories,
+			movie: {
+				doctor: '大钟',
+				country: '中国',
+				title: '变形金刚1',
+				year: '1999',
+				poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
+				language: '汉语',
+				flash: 'http://player.youku.com/player.php/sid/XNjA1Njc0NTUy/v.swf',
+				summary: '就感到未来很无力'
+			}
+		});
+  
+	});
 };
 
 // admin update movie
