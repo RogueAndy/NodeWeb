@@ -49,7 +49,7 @@ exports.new = function(req, res) {
 			movie: {
 				doctor: '大钟',
 				country: '中国',
-				title: '变形金刚1',
+				title: '变形金刚第一部',
 				year: '1999',
 				poster: 'http://r3.ykimg.com/05160000530EEB63675839160D0B79D5',
 				language: '汉语',
@@ -78,7 +78,7 @@ exports.save = function(req, res) {
 
   var movieObj = req.body;
   var _movie;
-  if(movieObj._id != 'undefined') {
+  if(movieObj._id) {
     Movie.findById(movieObj._id, function(err, movie) {
       if(err) {
         console.log(err);
@@ -101,15 +101,23 @@ exports.save = function(req, res) {
       year: movieObj.year,
       poster: movieObj.poster,
       summary: movieObj.summary,
-      flash: movieObj.flash
+      flash: movieObj.flash,
+      category: movieObj.category
     });
 
+    var categoryId = _movie.category;
     _movie.save(function(err, movie) {
       if(err) {
         console.log(err);
       }
-
-      res.redirect('/movie/' + movie._id);
+      
+      Category.findById(categoryId, function (err, category) {
+        category.movies.push(_movie._id);
+        category.save(function (err, category) {
+					res.redirect('/movie/' + movie._id);
+				});
+			});
+    
     });
   }
 };

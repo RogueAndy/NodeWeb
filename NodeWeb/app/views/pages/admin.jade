@@ -1,17 +1,20 @@
 extends ../layout
 block content
   .container
-    .row
-      form.form-horizontal(method="post", action="/admin/movie/new")
-        input(type="hidden", name="_id", value=movie._id)
+    .row(style="height: 1000px;")
+      form.form-horizontal(method="post", action="/admin/movie")
+        if movie._id
+          input(type="hidden", name="_id", value=movie._id)
         .form-group
           label.col-sm-2.control-label(for="inputCategory") 电影分类
           .col-sm-10
-            input#inputCategory.form-control(type="text", name="category", value=movie.categoryName)
-        each cat in categories
-          label.radio-inline
-            input(type='radio', name='category', value=cat._id)
-            | #{cat.name}
+            input#inputCategory.form-control(type="text", name="categoryName", value=movie.categoryName)
+        .form-group
+          label.col-sm-2.control-label 分类选择
+          each cat in categories
+            label.radio-inline
+              input(type='radio', name='category', value=cat._id)
+              | #{cat.name}
         .form-group
           label.col-sm-2.control-label(for="inputTitle") 电影名字
           .col-sm-10
@@ -46,5 +49,5 @@ block content
             input#inputYear.form-control(type="text", name="year", value=movie.year)
         .form-group
           .col-sm-offset-2.col-sm-10
-          button.btn.btn-default(type="submit") 录入
+            button.btn.btn-default(type="submit") 录入
 
