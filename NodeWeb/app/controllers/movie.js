@@ -110,19 +110,36 @@ exports.save = function(req, res) {
       category: movieObj.category
     });
 
-    var categoryId = _movie.category;
+    var categoryId = movieObj.category;
+    var categoryName = movieObj.categoryName;
     _movie.save(function(err, movie) {
       if(err) {
         console.log(err);
       }
-      
-      Category.findById(categoryId, function (err, category) {
-        category.movies.push(_movie._id);
-        category.save(function (err, category) {
-					res.redirect('/movie/' + movie._id);
+			
+      if(categoryId) {
+				Category.findById(categoryId, function (err, category) {
+					category.movies.push(_movie._id);
+					category.save(function (err, category) {
+						res.redirect('/movie/' + movie._id);
+					});
 				});
-			});
-    
+			} else if(categoryName) {
+				var category1 = new Category({
+					name: categoryName,
+					movies: [movie._id]
+				});
+	
+				category1.save(function (err, category) {
+					movie.category = category._id;
+					movie.save(function (err, movie) {
+						res.redirect('/movie/' + movie._id);
+					});
+				});
+			}
+	
+			
+			
     });
   }
 };
