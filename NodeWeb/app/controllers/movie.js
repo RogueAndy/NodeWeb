@@ -22,9 +22,16 @@ exports.detail = function(req, res) {
   //     });
   //   });
   // });
-  
+
+  Movie.update({_id: id}, {$inc: {pv: 1}}, function (err) {
+    if(err) {
+      console.log(err);
+    }
+  });
+
   /* 关于 populate 的用法，from 代表着本来在 Comment 里存在的 key,而name代表查询 用户的名字，再把用户名字存入到 from 字段李 */
   Movie.findById(id, function(err, movie) {
+
     Comment
       .find({movie: id})
       .populate('from', 'name')
