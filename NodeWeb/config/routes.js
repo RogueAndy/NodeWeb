@@ -33,7 +33,7 @@ module.exports = function(app) {
   app.delete('/admin/userlist', User.del);
 
   /* Movie */
-  app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.save);
+  app.post('/admin/movie', User.signinRequired, User.adminRequired, Movie.savePoster, Movie.save);
   app.get('/movie/:id', Movie.detail);
   app.get('/admin/movie/update/:id', User.signinRequired, User.adminRequired, Movie.update);
   app.get('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.new);

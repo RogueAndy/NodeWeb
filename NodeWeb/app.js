@@ -3,6 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var sessionParser = require('express-session');
+var multipart = require('connect-multiparty');
 var port = process.env.PORT || 3000;
 var app = express();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.use(multipart());
 app.use(sessionParser({
   secret: 'imooc',
   store: new mongooseStore({

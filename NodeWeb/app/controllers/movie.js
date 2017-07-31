@@ -6,6 +6,8 @@ var _ = require('underscore');
 var Movie = require('../models/movie');
 var Comment = require('../models/comment');
 var Category = require('../models/category');
+var fs = require('fs');
+var path = require('path');
 
 // detail page
 exports.detail = function(req, res) {
@@ -79,10 +81,39 @@ exports.update = function(req, res) {
   }
 };
 
+/* admin post */
+exports.savePoster = function (req, res, next) {
+
+  var posterData = req.files.uploadPoster;
+  var filePath = posterData.path;
+  var originalFilename = posterData.originalFilename;
+
+  if(originalFilename) {
+    fs.readFile(filePath, function (err, data) {
+      var timestamp = Date.now();
+      var type = posterData.type.split('/')[1];
+      var poster = timestamp + '.' + type;
+      var newPath = path.join(__dirname, '../../', '/public/upload/' + poster);
+      fs.writeFile(newPath, data, function (err) {
+        req.poster = poster;
+        next();
+      });
+    });
+  } else {
+    next();
+  }
+};
+
+/* admin post movie */
 exports.save = function(req, res) {
 
   var movieObj = req.body;
   var _movie;
+
+  if(req.poster) {
+    movieObj.poster = req.poster;
+  }
+
   if(movieObj._id) {
     Movie.findById(movieObj._id, function(err, movie) {
       if(err) {
