@@ -14,10 +14,11 @@ exports.index = function (req, res) {
       if(err) {
         console.log(err);
       }
-  
+
+      var cats = [categories[0]];
       res.render('index', {
         title: 'imooc 首页',
-        categories: categories
+        categories: cats
       });
     });
 

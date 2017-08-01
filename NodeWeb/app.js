@@ -16,6 +16,7 @@ mongoose.connect(dbUrl, {useMongoClient:true});
 
 app.set('views', './app/views/pages_ejs');
 app.set('view engine', 'ejs');
+app.set('layout', './app/views/layout.ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));
