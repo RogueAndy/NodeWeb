@@ -1,0 +1,37 @@
+<%include ../layout.ejs%>
+
+<block name="content">
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>类别</th>
+                    <th>时间</th>
+                    <th>查看</th>
+                    <% if(user && user.role > 10) { %>
+                    <th>更新</th>
+                    <th>删除</th>
+                    <% } %>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0; i < categories.length; i++) {
+                    var item = categories[i];
+                %>
+                <tr class="item-id-<%= item._id%>">
+                    <td><%= item.name%></td>
+                    <td><%= moment(item.meta.updateAt).format('MM/DD/YYYY')%></td>
+                    <td><a target="_blank" href="../user/<%= item._id%>">查看</a></td>
+                    <% if(user && user.role > 10) { %>
+                    <td><a target="_blank" href="/admin/update/<%= item._id%>">修改</a></td>
+                    <td><button class="btn btn-danger del" type="button" data-id="<%= item._id%>">删除</button></td>
+                    <% } %>
+                </tr>
+
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</block>

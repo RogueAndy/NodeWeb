@@ -1,0 +1,26 @@
+<%include ../layout.ejs%>
+
+<block name="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form method="POST" action="/user/signin">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="signinName">用户名</label>
+                            <input id="signinName" class="form-control" name="name" type="text"/>
+                        </div>
+                        <div class="form-control">
+                            <label for="signinPassword">密码</label>
+                            <input id="signinPassword" class="form-control" name="name" type="text"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">关闭</button>
+                        <button class="btn btn-success" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</block>
