@@ -1,0 +1,43 @@
+<%include ../layout.ejs%>
+<block name="content">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3><%= keyword%></h3>
+                </div>
+                <div class="panel-body">
+                    <% if(movies && movies.length > 0) {
+                        for(var i = 0; i < movies.length; i++) {
+                          var item = movies[i];
+                     %>
+                    <div class="col-md-2">
+                        <div class="thumbnail">
+                            <a href="/movie/<%= item._id%>">
+                                <img src="<%= item.poster%>" alt="<%= item.title%>"/>
+                            </a>
+                            <div class="caption">
+                                <h3><%= item.title%></h3>
+                                <p><a class="btn btn-primary" href="/movie/<%= item._id%>" role="button">观看预告片</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                        }
+                    }%>
+                </div>
+            </div>
+        </div>
+        <ul class="pagination" style="height:200px;">
+            <% for(var j = 0; j < totalPage; j++) {
+              if(currentPage == (j + 1)) {
+            %>
+                <li class="active">
+                    <span><%= currentPage%></span>
+                </li>
+            <% } else { %>
+                <li><a href="/results?#<%= query%>&p=<%= j%>"><%= j + 1%></a></li>
+            <%}} %>
+        </ul>
+    </div>
+</block>
