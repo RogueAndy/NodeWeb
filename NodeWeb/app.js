@@ -14,9 +14,22 @@ mongoose.Promise = global.Promise;
 var dbUrl = 'mongodb://localhost/imooc';
 mongoose.connect(dbUrl, {useMongoClient:true});
 
+/** ejs 模板配置
 app.set('views', './app/views/pages_ejs');
 app.set('view engine', 'ejs');
 app.set('layout', './app/views/layout.ejs');
+ */
+
+/** jade 模板配置
+app.set('views', './app/views/pages');
+app.set('view engine', 'jade');
+app.set('layout', './app/views/layout.jade');
+*/
+
+app.set('views', './app/views/pages_ejs');
+app.set('view engine', 'ejs');
+app.set('layout', './app/views/layout.ejs');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));
