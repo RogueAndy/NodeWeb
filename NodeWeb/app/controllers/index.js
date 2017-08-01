@@ -15,10 +15,9 @@ exports.index = function (req, res) {
         console.log(err);
       }
 
-      var cats = [categories[0]];
       res.render('index', {
         title: 'imooc 首页',
-        categories: cats
+        categories: categories
       });
     });
 
