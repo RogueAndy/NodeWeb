@@ -1,0 +1,40 @@
+<%include ../layout.ejs%>
+<!--<div style="width:200px;height:200px;background-color: #3e8f3e;"></div>-->
+<block name="content">
+    <div class="container">
+        <div class="row">
+            <% for(var i = 0; i < categories.length; i++) {
+                var cat = categories[i];
+            %>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3><a href="/results?cat=#{cat._id}&p=0">cat.name</a></h3>
+                </div>
+                <div class="panel-body">
+                    <% if(cat.movies && cat.movies.length > 0) {
+                        for(var j = 0; j < cat.movies.length; j++) {
+                            var item = cat.movies[j];
+
+                        }%>
+                    <div class="col-sm-2">
+                        <div class="thumbnail">
+                            <a href="/movie/#{item._id}">
+                                <% if( item.poster.indexOf('http:') > -1 || item.poster.indexOf('https:') > -1 ) { %>
+                                <img src="#{item.poster}" alt="#{item.title}">
+                                <% } else { %>
+                                <img src="/upload/#{item.poster}" alt="#{item.title}">
+                                <% } %>
+                            </a>
+                            <div class="caption">
+                                <h3>item.title</h3>
+                                <p><a class="btn btn-primary" href="/movie/#{item._id}" role="button">观看预告片</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }
+            } %>
+        </div>
+    </div>
+</block>

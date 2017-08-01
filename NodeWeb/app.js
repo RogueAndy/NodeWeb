@@ -14,8 +14,8 @@ mongoose.Promise = global.Promise;
 var dbUrl = 'mongodb://localhost/imooc';
 mongoose.connect(dbUrl, {useMongoClient:true});
 
-app.set('views', './app/views/pages');
-app.set('view engine', 'jade');
+app.set('views', './app/views/pages_ejs');
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));

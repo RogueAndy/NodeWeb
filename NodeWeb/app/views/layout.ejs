@@ -2,7 +2,11 @@
 <html>
 <head>
     <meta charset="utf8"/>
-    <title>#{title}</title>
-    <include src="./includes_ejs/head"/>
+    <title><%title%></title>
+    <%include ./includes_ejs/head.ejs %>
 </head>
+<body>
+<%include ./includes_ejs/header.ejs%>
+<block name="content"></block>
+</body>
 </html>
