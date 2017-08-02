@@ -14,8 +14,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for(var i = 0; i < users.length; i++) {
-                  var item = users[i];
+                <%
+                    for(let item of users) {
                 %>
                 <tr class="item-id-<%= item._id%>">
                     <td><%= item.name%></td>

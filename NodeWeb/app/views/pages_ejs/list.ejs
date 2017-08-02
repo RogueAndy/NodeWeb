@@ -20,8 +20,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for(var i = 0; i < movies.length; i++) {
-                    var item = movies[i];
+                <%
+                    for(let item of movies) {
                 %>
                 <tr class="item-id-<%= item._id%>">
                     <td><%= item.title%></td>

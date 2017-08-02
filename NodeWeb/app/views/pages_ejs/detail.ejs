@@ -24,8 +24,8 @@
     </div>
     <h3 style="padding-bottom:12px;border-bottom:1px solid #d9d9d9;">评论</h3>
     <div class="comment-list">
-        <% for(var i = 0; i < comments.length; i++) {
-            var item = comments[i];
+        <%
+            for(let item of comments) {
         %>
         <div class="row">
             <div class="col-md-1">
@@ -40,8 +40,7 @@
                 <p><%= item.content%></p>
                 <div class="comment-reply">
                     <% if(item.reply && item.reply.length > 0) {
-                        for(var j = 0; j < item.reply.length; j++) {
-                          var reply = item.reply[j];
+                        for (let reply of item.reply) {
                     %>
                     <div class="row">
                         <div class="col-md-1">

@@ -11,8 +11,7 @@
                     </div>
                     <div class="panel-body">
                         <% if(cat.movies && cat.movies.length > 0) {
-                            for(var j = 0; j < cat.movies.length; j++) {
-                                var item = cat.movies[j];
+                            for(let item of cat.movies) {
                             %>
                                 <div class="col-sm-2">
                                     <div class="thumbnail">
