@@ -51,5 +51,9 @@ module.exports = function(app) {
   
   /* results */
   app.get('/results', Index.search);
+
+  /* iphone手机 test api */
+  app.get('/testapi', Index.testapi);
+
 };
 
