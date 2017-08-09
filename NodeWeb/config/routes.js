@@ -8,6 +8,7 @@ var User = require('../app/controllers/user');
 var Movie = require('../app/controllers/movie');
 var Comment = require('../app/controllers/comment');
 var Category = require('../app/controllers/category');
+var Weather = require('../app/controllers/weather');
 
 module.exports = function(app) {
 
@@ -54,6 +55,8 @@ module.exports = function(app) {
 
   /* iphone手机 test api */
   app.get('/testapi', Index.testapi);
+
+  app.get('/weatherdetail/:areaname', Weather.weatherWithAreaname);
 
 };
 
